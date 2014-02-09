@@ -1,14 +1,32 @@
 -- See https://github.com/jiho/tile-windows for similar stuff.
 
+-- Get desktop size
+tell application "Finder"
+    set b to bounds of window of desktop
+end tell
+
+set dd to (item 3 of b)
+set d to dd/8
+set candidateValues to {1*d, 2*d, 3*d, 4*d, 5*d, 6*d, 7*d, dd}
+
+to nextCandidateSmallerThan(currentValue)
+    global candidateValues
+    repeat with v in reverse of candidateValues
+        if (v < currentValue) then
+            return v
+        end if
+    end repeat
+    return item 1 of candidateValues
+end nextCandidateSmallerThan
+
 set curApp to (path to frontmost application as Unicode text)
 
-set nSteps to 3
-
 tell application curApp
-	tell front window
-		set {x1, y1, x2, y2} to (get bounds)
-		set factor to (2 ^ (1 / nSteps))
-                set new_x2 to x1 + (x2 - x1) / factor
-		set bounds to {x1, y1, new_x2, y2}
-	end tell
+    tell front window
+        set {x1, y1, x2, y2} to (get bounds)
+        set cc to my nextCandidateSmallerThan(x2)
+        if (cc-x1 >= d) then
+            set bounds to {x1, y1, cc, y2}
+        end if
+    end tell
 end tell
