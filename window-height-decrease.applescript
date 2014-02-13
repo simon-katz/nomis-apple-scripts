@@ -24,7 +24,7 @@ set curApp to (path to frontmost application as Unicode text)
 tell application curApp
     tell front window
         set {x1, y1, x2, y2} to (get bounds)
-        set cc to my nextCandidateSmallerThan(y2)
+        set cc to my nextCandidateSmallerThan(y2-1)
         if (cc-y1 >= d) then
             set bounds to {x1, y1, x2, cc}
         end if
