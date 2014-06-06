@@ -6,7 +6,7 @@ tell application "Finder"
 end tell
 
 set dd to (item 3 of b)
-set d to dd/8
+set d to dd/16
 
 set curApp to (path to frontmost application as Unicode text)
 
